@@ -23,6 +23,16 @@ export class InMemoryMenuRepository implements MenuRepository {
         return this.menus.get(id) || null;
     }
 
+    async findOptionIdByLabel(label: string): Promise<string | null> {
+        for (const menu of this.menus.values()) {
+            const option = menu.options.find(o => o.label.toLowerCase() === label.toLowerCase());
+            if (option) {
+                return option.id;
+            }
+        }
+        return null;
+    }
+
     // Helper for seeding
     save(menu: Menu): void {
         this.menus.set(menu.id, menu);

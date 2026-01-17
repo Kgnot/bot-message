@@ -33,7 +33,7 @@ export class MenuHandler extends AbstractConversationHandler {
             await this.conversationRepo.saveConversation(conversation);
             return {
                 type: 'TEXT',
-                textKey: 'TRIAGE_START'
+                text: 'TRIAGE_START'
             };
         }
 
@@ -43,7 +43,7 @@ export class MenuHandler extends AbstractConversationHandler {
             await this.conversationRepo.saveConversation(conversation);
             return {
                 type: 'TEXT',
-                textKey: 'EMERGENCY_TRIAGE'
+                text: 'EMERGENCY_TRIAGE'
             };
         }
 
@@ -53,14 +53,14 @@ export class MenuHandler extends AbstractConversationHandler {
             await this.conversationRepo.saveConversation(conversation);
             return {
                 type: 'TEXT',
-                textKey: 'INFORMATION_MENU'
+                text: 'INFORMATION_MENU'
             };
         }
 
         // Invalid option, stay in MENU state
         return {
             type: 'TEXT',
-            textKey: 'INVALID_OPTION'
+            text: 'INVALID_OPTION'
         };
     }
 }

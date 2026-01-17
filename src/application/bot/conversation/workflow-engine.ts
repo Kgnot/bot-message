@@ -4,7 +4,11 @@ import { CONVERSATION_REPOSITORY, type ConversationRepository } from "src/applic
 import { Workflow } from "src/domain/model/workflow";
 import { Conversation } from "src/domain/model/conversation";
 import { ResponseIntent } from "../response/response-intent";
+import { State } from "src/domain/model/state";
 
+/**
+ * Ejecutar un workflow paso a paso dado un input del usuario y devolver qué responder y a qué paso ir después
+ */
 @Injectable()
 export class WorkflowEngine {
     constructor(
@@ -20,7 +24,11 @@ export class WorkflowEngine {
         conversation: Conversation,
         userInput: string
     ): Promise<WorkflowExecutionResult> {
+        if (conversation.state === State.COMPLETED) {
+            currentStepId = null;
+        }
         const stepId = currentStepId || workflow.firstStepId;
+        // Aqui nosotros obtenemos el paso inicial
         const step = workflow.getStep(stepId);
 
         if (!step) {
@@ -29,6 +37,15 @@ export class WorkflowEngine {
 
         const response: ResponseIntent = step.response;
         const nextStepId = step.findNextStep(userInput, this.conditionEvaluator);
+        // validamos si el paso es el último, de serlo reiniciamos la conversación
+        if (!nextStepId) {
+            await this.conversationRepo.completedConversation(conversation);
+
+            return {
+                response,
+                nextStepId: null
+            } as WorkflowExecutionResult;
+        }
 
         await this.conversationRepo.saveConversation(conversation);
 

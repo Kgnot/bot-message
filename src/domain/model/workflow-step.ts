@@ -29,6 +29,7 @@ export class WorkflowStep {
      */
     findNextStep(userInput: string, evaluator: ConditionEvaluator): string | null {
         for (const transition of this.transitions) {
+            console.log("class: WorkflowStep | transition", transition);
             if (evaluator.evaluate(transition.condition, userInput)) {
                 return transition.nextStepId;
             }

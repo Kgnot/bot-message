@@ -7,7 +7,7 @@ export function botResponseToOutgoing(response: ResponseIntent): OutgoingMessage
             console.log("response", response);
             return {
                 kind: 'TEXT',
-                textKey: response.textKey || 'DYNAMIC_TEXT',
+                textKey: response.text || 'DYNAMIC_TEXT',
                 text: response.text,
             };
 

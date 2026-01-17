@@ -9,4 +9,10 @@ export class MongoMenuRepository implements MenuRepository {
         console.warn("MongoMenuRepository not implemented, returning null");
         return null;
     }
+
+    async findOptionIdByLabel(label: string): Promise<string | null> {
+        // TODO: Implement Mongo connection
+        console.warn("MongoMenuRepository not implemented, returning null");
+        return null;
+    }
 }

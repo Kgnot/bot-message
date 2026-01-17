@@ -1,7 +1,6 @@
 export interface ShowText {
     type: 'TEXT';
-    textKey: string;
-    text?: string;
+    text: string;
 }
 
 export interface ShowMenu {

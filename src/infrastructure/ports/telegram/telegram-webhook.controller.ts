@@ -6,6 +6,7 @@ import { MESSAGE_SENDER, type MessageSender } from 'src/application/ports/mesage
 import { User } from 'src/domain/model';
 import { botResponseToOutgoing } from 'src/application/mapper/bot-response.mapper';
 import { ResponseIntent } from 'src/application/bot/response/response-intent';
+import { TransformTelegramUpdatePipe } from './pipe/transform-telegram-update/transform-telegram-update.pipe';
 
 @Controller('telegram-webhook')
 export class TelegramWebhookController {
@@ -17,7 +18,7 @@ export class TelegramWebhookController {
     ) { }
 
     @Post()
-    async handle(@Body() update: TelegramUpdate) {
+    async handle(@Body(TransformTelegramUpdatePipe) update: TelegramUpdate) {
         const command = new IncomingMessageCommand(
             update.message.from.id.toString(),
             update.message.text,

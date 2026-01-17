@@ -37,7 +37,7 @@ export class ConfirmationHandler extends AbstractConversationHandler {
 
             return {
                 type: 'TEXT',
-                textKey: 'APPOINTMENT_CONFIRMED',
+                text: 'APPOINTMENT_CONFIRMED',
                 // In a real scenario, this would trigger appointment creation
                 // For now, we just confirm receipt
             };
@@ -58,7 +58,7 @@ export class ConfirmationHandler extends AbstractConversationHandler {
             // Invalid response, ask again
             return {
                 type: 'TEXT',
-                textKey: 'INVALID_CONFIRMATION'
+                text: 'INVALID_CONFIRMATION'
             };
         }
     }

@@ -30,7 +30,7 @@ export class CollectingReasonHandler extends AbstractConversationHandler {
         if (visitReason.length < 5) {
             return {
                 type: 'TEXT',
-                textKey: 'INVALID_REASON'
+                text: 'INVALID_REASON'
             };
         }
 

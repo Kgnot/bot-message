@@ -30,7 +30,7 @@ export class CollectingNameHandler extends AbstractConversationHandler {
         if (patientName.length < 2) {
             return {
                 type: 'TEXT',
-                textKey: 'INVALID_NAME'
+                text: 'INVALID_NAME'
             };
         }
 

@@ -36,8 +36,9 @@ export class WorkflowStrategy implements ConversationStrategy {
             conversation,
             userInput
         );
-
+        console.log("result | WorkflowStrategy", result); // miramos el resultado
         if (result.nextStepId) {
+            console.log("nextStepId | WorkflowStrategy", result.nextStepId); // miramos cual es el siguiente paso o pasos
             conversation.setContextData("currentStepId", result.nextStepId);
         }
         console.log("result.response | WorkflowStrategy", result.response); // la respusta es 
