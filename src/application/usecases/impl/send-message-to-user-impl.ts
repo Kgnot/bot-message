@@ -1,13 +1,17 @@
-import { MessageSender } from "src/domain/ports/mesage-sender";
+import { MessageSender } from "src/application/ports/mesage-sender";
 import { SendMessageToUser } from "../interfaces/send-message-to-user";
-import { User, Message } from "src/domain/model";
+import { User } from "src/domain/model";
+import { OutgoingMessage } from "src/application/messaging/outgoing-message";
 
 export class SendMessageToUserImpl implements SendMessageToUser {
     constructor(
         private readonly messageSender: MessageSender
     ) { }
     execute(message: string, user: User): Promise<void> {
-        const msg: Message = Message.create(message);
+        const msg: OutgoingMessage = {
+            kind: 'TEXT',
+            textKey: message,
+        }
         return this.messageSender.sendToUser(msg, user);
     }
 }

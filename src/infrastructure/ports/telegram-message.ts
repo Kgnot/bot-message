@@ -1,25 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
-import { MessageSender } from 'src/domain/ports/mesage-sender';
-import { Message, User } from 'src/domain/model';
+import { MessageSender } from 'src/application/ports/mesage-sender';
+import { User } from 'src/domain/model';
+import { OutgoingMessage } from 'src/application/messaging/outgoing-message';
+import { URL_TELEGRAM_ENUM } from './telegram/url/url.enum';
+import { SenderHandler } from './telegram/handler/sender.handler';
 
 @Injectable()
 export class TelegramMessageSender implements MessageSender {
-    constructor(private readonly http: HttpService) { }
-
-    async sendToUser(message: Message, user: User): Promise<void> {
-        const url = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`;
-        console.log("URL", url);
-        await firstValueFrom(
-            this.http.post(url, {
-                chat_id: user.id,
-                text: message.content,
-            }),
-        );
+    constructor(
+        private readonly senderHandler: SenderHandler,
+    ) { }
+    sendBroadcast(message: OutgoingMessage): Promise<void> {
+        throw new Error('Method not implemented.');
     }
 
-    async sendBroadcast(message: Message): Promise<void> {
-        // opcional, normalmente no se usa en Telegram
+    async sendToUser(message: OutgoingMessage, user: User): Promise<void> {
+        const url = URL_TELEGRAM_ENUM.SEND_MESSAGE;
+
+        if (message.kind === 'TEXT') {
+            await this.senderHandler.sendText(url, user.id, message.textKey);
+        }
+
+        if (message.kind === 'MENU') {
+            await this.senderHandler.sendMenu(url, user.id, message.menuId);
+        }
     }
+
 }
