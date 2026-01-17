@@ -1,14 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { TelegramUpdateMapper } from './telegram-update.mapper';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import type { TelegramUpdate } from './types/telegram-update';
 import { IncomingMessageCommand } from 'src/application/command/incoming-message-command';
-import { HandleIncomingMessage } from 'src/application/usecases/interfaces/handle-incoming-message';
+import { HANDLE_INCOMING_MESSAGE, type HandleIncomingMessage } from 'src/application/usecases/interfaces/handle-incoming-message';
 
 @Controller('telegram-webhook')
 export class TelegramWebhookController {
     constructor(
+        @Inject(HANDLE_INCOMING_MESSAGE)
         private readonly handleIncomingMessage: HandleIncomingMessage
     ) { }
+
     @Post()
     handle(@Body() update: TelegramUpdate) {
         const command = new IncomingMessageCommand(
@@ -16,8 +17,11 @@ export class TelegramWebhookController {
             update.message.text,
             'telegram'
         );
+        console.log("Llega al webhook", update.message.text)
 
-        return this.handleIncomingMessage.execute(command);
+        this.handleIncomingMessage.execute(command);
+
+        return { ok: true };
     }
 
 }

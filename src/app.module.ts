@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { TelegramModule } from './infrastructure/ports/telegram/telegram.module';
 
 @Module({
-  imports: [],
+  imports: [TelegramModule],
   controllers: [],
   providers: [],
 })
