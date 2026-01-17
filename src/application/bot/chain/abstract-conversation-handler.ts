@@ -32,7 +32,7 @@ export abstract class AbstractConversationHandler implements ConversationHandler
         }
 
         // Fallback response if no handler in the chain can process the request
-        return { type: 'END_CONVERSATION' };
+        return { type: 'END_CONVERSATION' } as BotResponse;
     }
 
     /**

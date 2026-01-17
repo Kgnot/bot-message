@@ -10,4 +10,3 @@ export { ConfirmationHandler } from './handlers/confirmation.handler';
 export type { ConversationHandler } from './conversation-handler.interface';
 export { AbstractConversationHandler } from './abstract-conversation-handler';
 export { ConversationChainBuilder } from './conversation-chain.builder';
-export { ConversationChainModule } from './conversation-chain.module';
