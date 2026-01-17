@@ -5,6 +5,7 @@ import { HANDLE_INCOMING_MESSAGE, type HandleIncomingMessage } from 'src/applica
 import { MESSAGE_SENDER, type MessageSender } from 'src/application/ports/mesage-sender';
 import { User } from 'src/domain/model';
 import { botResponseToOutgoing } from 'src/application/mapper/bot-response.mapper';
+import { ResponseIntent } from 'src/application/bot/response/response-intent';
 
 @Controller('telegram-webhook')
 export class TelegramWebhookController {
@@ -22,10 +23,10 @@ export class TelegramWebhookController {
             update.message.text,
             'telegram'
         );
-        const response = await this.handleIncomingMessage.execute(command);
+        const response: ResponseIntent = await this.handleIncomingMessage.execute(command);
 
         if (response) {
-            console.log("response", response);
+            console.log("response-type: ", response.type);
             await this.messageSender.sendToUser(
                 botResponseToOutgoing(response),
                 User.fromId(command.userId),

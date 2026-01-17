@@ -1,5 +1,5 @@
 import { Conversation } from 'src/domain/model/conversation';
-import { BotResponse } from '../response/bot-response';
+import { ResponseIntent } from '../response/response-intent';
 
 /**
  * Base interface for conversation handlers in the Chain of Responsibility
@@ -19,5 +19,5 @@ export interface ConversationHandler {
      * @param userInput The user's input message
      * @returns A BotResponse indicating what action to take
      */
-    handle(conversation: Conversation, userInput: string): Promise<BotResponse>;
+    handle(conversation: Conversation, userInput: string): Promise<ResponseIntent>;
 }

@@ -1,6 +1,6 @@
 import { ConversationHandler } from './conversation-handler.interface';
 import { Conversation } from 'src/domain/model/conversation';
-import { BotResponse } from '../response/bot-response';
+import { ResponseIntent } from '../response/response-intent';
 
 /**
  * Abstract base class implementing the Chain of Responsibility pattern
@@ -22,7 +22,7 @@ export abstract class AbstractConversationHandler implements ConversationHandler
      * Main handler method implementing the chain logic
      * Checks if this handler can process the request, otherwise delegates to next handler
      */
-    public async handle(conversation: Conversation, userInput: string): Promise<BotResponse> {
+    public async handle(conversation: Conversation, userInput: string): Promise<ResponseIntent> {
         if (this.canHandle(conversation)) {
             return this.doHandle(conversation, userInput);
         }
@@ -32,7 +32,7 @@ export abstract class AbstractConversationHandler implements ConversationHandler
         }
 
         // Fallback response if no handler in the chain can process the request
-        return { type: 'END_CONVERSATION' } as BotResponse;
+        return { type: 'END_CONVERSATION' } as ResponseIntent;
     }
 
     /**
@@ -49,5 +49,5 @@ export abstract class AbstractConversationHandler implements ConversationHandler
      * @param userInput The user's input message
      * @returns A BotResponse indicating what action to take
      */
-    protected abstract doHandle(conversation: Conversation, userInput: string): Promise<BotResponse>;
+    protected abstract doHandle(conversation: Conversation, userInput: string): Promise<ResponseIntent>;
 }

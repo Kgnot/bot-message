@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { AbstractConversationHandler } from '../abstract-conversation-handler';
 import { Conversation } from 'src/domain/model/conversation';
 import { State } from 'src/domain/model/state';
-import { BotResponse } from '../../response/bot-response';
+import { ResponseIntent } from '../../response/response-intent';
 import type { ConversationRepository } from 'src/application/repository/conversation-repository';
 import { CONVERSATION_REPOSITORY } from 'src/application/repository/conversation-repository';
 
@@ -23,7 +23,7 @@ export class WelcomeHandler extends AbstractConversationHandler {
         return conversation.state === State.START;
     }
 
-    protected async doHandle(conversation: Conversation, userInput: string): Promise<BotResponse> {
+    protected async doHandle(conversation: Conversation, userInput: string): Promise<ResponseIntent> {
         // Transition to menu state
         conversation.transitionTo(State.MENU);
         await this.conversationRepo.saveConversation(conversation);

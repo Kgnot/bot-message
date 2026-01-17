@@ -4,7 +4,7 @@ import { HandleIncomingMessageImpl } from 'src/application/usecases/impl/handle-
 import { TelegramMessageSender } from '../telegram-message';
 import { MESSAGE_SENDER } from 'src/application/ports/mesage-sender';
 import { CONVERSATION_REPOSITORY } from 'src/application/repository/conversation-repository';
-import { InMemoryConversationRepository } from 'src/infrastructure/repository/in-memory-conversation.repository';
+import { InMemoryConversationRepository } from 'src/infrastructure/persistence/memory/repository/in-memory-conversation.repository';
 import { HANDLE_INCOMING_MESSAGE } from 'src/application/usecases/interfaces/handle-incoming-message';
 import { HttpModule } from '@nestjs/axios';
 import { I18nService } from 'src/infrastructure/i18n/i18n.service';
@@ -16,9 +16,12 @@ import { TriageHandler } from 'src/application/bot/chain/handlers/triage.handler
 import { CollectingNameHandler } from 'src/application/bot/chain/handlers/collecting-name.handler';
 import { CollectingReasonHandler } from 'src/application/bot/chain/handlers/collecting-reason.handler';
 import { ConfirmationHandler } from 'src/application/bot/chain/handlers/confirmation.handler';
+import { BotModule } from 'src/infrastructure/bot/bot.module';
+import { MENU_REPOSITORY } from 'src/application/repository/menu-repository';
+import { InMemoryMenuRepository } from 'src/infrastructure/persistence/memory/repository/in-memory-menu.repository';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, BotModule],
   controllers: [TelegramWebhookController],
   providers: [
     // handlers (TODOS)
@@ -40,6 +43,10 @@ import { ConfirmationHandler } from 'src/application/bot/chain/handlers/confirma
     {
       provide: MESSAGE_SENDER,
       useClass: TelegramMessageSender,
+    },
+    {
+      provide: MENU_REPOSITORY,
+      useClass: InMemoryMenuRepository,
     },
     {
       provide: CONVERSATION_REPOSITORY,

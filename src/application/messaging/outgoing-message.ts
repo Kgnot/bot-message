@@ -8,12 +8,15 @@ export type OutgoingMessage =
 export interface TextOutgoingMessage {
     kind: 'TEXT';
     textKey: string;
+    text?: string;
     params?: Record<string, string>;
 }
 
 export interface MenuOutgoingMessage {
     kind: 'MENU';
     menuId: string;
+    text?: string;
+    options?: string[];
 }
 
 export interface AskInputOutgoingMessage {

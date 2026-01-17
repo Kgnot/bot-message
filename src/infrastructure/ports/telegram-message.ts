@@ -26,12 +26,23 @@ export class TelegramMessageSender implements MessageSender {
                 await this.senderHandler.sendText(
                     url,
                     chatId,
-                    this.i18n.getText(message.textKey)
+                    message.text || this.i18n.getText(message.textKey)
                 );
                 break;
 
             case 'MENU':
-                await this.senderHandler.sendMenu(url, chatId, message.menuId);
+                // logic: if options exist, it's definitely a fully dynamic menu
+                if (message.options && message.options.length > 0) {
+                    await this.senderHandler.sendDynamicMenu(
+                        url,
+                        chatId,
+                        message.text || 'Opción',
+                        message.options
+                    );
+                } else {
+                    // It's a menu ID lookup. Pass the text if available to override/augment the static menu title
+                    await this.senderHandler.sendMenu(url, chatId, message.menuId, message.text);
+                }
                 break;
 
             case 'ASK_INPUT':

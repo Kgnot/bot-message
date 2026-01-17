@@ -1,11 +1,14 @@
 export interface ShowText {
     type: 'TEXT';
     textKey: string;
+    text?: string;
 }
 
 export interface ShowMenu {
     type: 'MENU';
-    menuId: 'MAIN_MENU';
+    menuId: string;
+    text?: string;
+    options?: string[];
 }
 
 export interface AskInput {
