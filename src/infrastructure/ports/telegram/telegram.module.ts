@@ -9,11 +9,30 @@ import { HANDLE_INCOMING_MESSAGE } from 'src/application/usecases/interfaces/han
 import { HttpModule } from '@nestjs/axios';
 import { I18nService } from 'src/infrastructure/i18n/i18n.service';
 import { SenderHandler } from './handler/sender.handler';
+import { ConversationChainBuilder } from 'src/application/bot/chain';
+import { WelcomeHandler } from 'src/application/bot/chain/handlers/welcome.handler';
+import { MenuHandler } from 'src/application/bot/chain/handlers/menu.handler';
+import { TriageHandler } from 'src/application/bot/chain/handlers/triage.handler';
+import { CollectingNameHandler } from 'src/application/bot/chain/handlers/collecting-name.handler';
+import { CollectingReasonHandler } from 'src/application/bot/chain/handlers/collecting-reason.handler';
+import { ConfirmationHandler } from 'src/application/bot/chain/handlers/confirmation.handler';
 
 @Module({
   imports: [HttpModule],
   controllers: [TelegramWebhookController],
   providers: [
+    // handlers (TODOS)
+    WelcomeHandler,
+    MenuHandler,
+    TriageHandler,
+    CollectingNameHandler,
+    CollectingReasonHandler,
+    ConfirmationHandler,
+    //
+    I18nService,
+    SenderHandler,
+    ConversationChainBuilder,
+
     {
       provide: HANDLE_INCOMING_MESSAGE,
       useClass: HandleIncomingMessageImpl,
@@ -25,14 +44,6 @@ import { SenderHandler } from './handler/sender.handler';
     {
       provide: CONVERSATION_REPOSITORY,
       useClass: InMemoryConversationRepository,
-    },
-    {
-      provide: I18nService,
-      useClass: I18nService,
-    },
-    {
-      provide: SenderHandler,
-      useClass: SenderHandler,
     },
   ],
 })

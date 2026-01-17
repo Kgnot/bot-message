@@ -30,6 +30,33 @@ export class SenderHandler {
                 reply_markup: {
                     keyboard: menu.options.map(o => [this.i18n.getText(o)]),
                     resize_keyboard: true,
+                    one_time_keyboard: false,
+                },
+            }),
+        );
+    }
+
+    async sendAskInput(url: string, chatId: string, prompt: string) {
+        await firstValueFrom(
+            this.http.post(url, {
+                chat_id: chatId,
+                text: prompt,
+                reply_markup: {
+                    remove_keyboard: true, // Remove previous keyboard
+                },
+            }),
+        );
+    }
+
+    async sendAskConfirmation(url: string, chatId: string, message: string) {
+        await firstValueFrom(
+            this.http.post(url, {
+                chat_id: chatId,
+                text: message,
+                reply_markup: {
+                    keyboard: [['Sí'], ['No']],
+                    resize_keyboard: true,
+                    one_time_keyboard: true,
                 },
             }),
         );

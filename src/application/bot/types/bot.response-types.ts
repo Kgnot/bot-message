@@ -10,12 +10,14 @@ export interface ShowMenu {
 
 export interface AskInput {
     type: 'ASK_INPUT';
-    field: 'EMAIL' | 'PHONE';
+    inputKey: string;
+    prompt: string;
 }
 
 export interface AskConfirmation {
-    type: 'CONFIRM';
-    questionKey: 'DELETE_ACCOUNT';
+    type: 'ASK_CONFIRMATION';
+    confirmationKey: string;
+    message: string;
 }
 
 export interface ShowSurvey {

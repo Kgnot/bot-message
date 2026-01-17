@@ -1,7 +1,9 @@
 // Este es la intencion comunicable es decir el mensaje que se va a enviar al usuario
 export type OutgoingMessage =
     | TextOutgoingMessage
-    | MenuOutgoingMessage;
+    | MenuOutgoingMessage
+    | AskInputOutgoingMessage
+    | AskConfirmationOutgoingMessage;
 
 export interface TextOutgoingMessage {
     kind: 'TEXT';
@@ -12,4 +14,14 @@ export interface TextOutgoingMessage {
 export interface MenuOutgoingMessage {
     kind: 'MENU';
     menuId: string;
+}
+
+export interface AskInputOutgoingMessage {
+    kind: 'ASK_INPUT';
+    prompt: string;
+}
+
+export interface AskConfirmationOutgoingMessage {
+    kind: 'ASK_CONFIRMATION';
+    message: string;
 }

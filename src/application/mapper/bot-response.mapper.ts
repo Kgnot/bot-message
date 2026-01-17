@@ -15,6 +15,18 @@ export function botResponseToOutgoing(response: BotResponse): OutgoingMessage {
                 menuId: response.menuId,
             };
 
+        case 'ASK_INPUT':
+            return {
+                kind: 'ASK_INPUT',
+                prompt: response.prompt,
+            };
+
+        case 'ASK_CONFIRMATION':
+            return {
+                kind: 'ASK_CONFIRMATION',
+                message: response.message,
+            };
+
         case 'END_CONVERSATION':
             return {
                 kind: 'TEXT',
